@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
-import { NAV_LINKS } from '../data/content.js'
+import { homeHref, navLinks } from '../lib/routes.js'
 import { Container } from './Layout.jsx'
 
 const SECTION_IDS = ['home', 'story', 'menu', 'promo', 'experience', 'testimonials', 'reserve']
 
-export default function Navbar() {
+export default function Navbar({ page = 'home' }) {
+  const links = navLinks(page)
+  const reserveHref = homeHref(page, '#reserve')
   const [open, setOpen] = useState(false)
-  const [active, setActive] = useState('home')
+  const [active, setActive] = useState(page === 'menu' ? 'menu' : 'home')
   const [scrolled, setScrolled] = useState(false)
 
   // Scroll spy + border emphasis
@@ -16,6 +18,10 @@ export default function Navbar() {
     const update = () => {
       frame = 0
       setScrolled(window.scrollY > 8)
+      if (page !== 'home') {
+        const atEnd = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 6
+        return setActive(atEnd ? 'contact' : page)
+      }
       const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 6
       if (atBottom) return setActive('contact')
       let current = 'home'
@@ -36,7 +42,7 @@ export default function Navbar() {
       window.removeEventListener('resize', onScroll)
       if (frame) cancelAnimationFrame(frame)
     }
-  }, [])
+  }, [page])
 
   // Close the mobile menu with Escape and when resizing to desktop
   useEffect(() => {
@@ -51,7 +57,7 @@ export default function Navbar() {
     }
   }, [open])
 
-  const isActive = (href) => href.slice(1) === active
+  const isActive = (id) => id === active
 
   return (
     <header
@@ -61,7 +67,7 @@ export default function Navbar() {
     >
       <Container className="flex h-20 items-center justify-between gap-6">
         <a
-          href="#home"
+          href={page === 'home' ? '#home' : '/'}
           onClick={() => setOpen(false)}
           className="font-display text-[1.75rem] font-medium tracking-tight text-espresso"
           aria-label="Savouria, back to top"
@@ -71,19 +77,19 @@ export default function Navbar() {
 
         <nav aria-label="Primary" className="hidden md:block">
           <ul className="flex items-center gap-9 lg:gap-12">
-            {NAV_LINKS.map((link) => (
-              <li key={link.href}>
+            {links.map((link) => (
+              <li key={link.id}>
                 <a
                   href={link.href}
-                  aria-current={isActive(link.href) ? 'true' : undefined}
+                  aria-current={isActive(link.id) ? 'true' : undefined}
                   className={`group relative font-ui text-[0.8125rem] font-medium tracking-wide transition-colors duration-300 hover:text-terracotta-deep ${
-                    isActive(link.href) ? 'text-terracotta-deep' : 'text-espresso'
+                    isActive(link.id) ? 'text-terracotta-deep' : 'text-espresso'
                   }`}
                 >
                   {link.label}
                   <span
                     className={`absolute -bottom-1.5 left-0 h-px w-full origin-left bg-terracotta transition-transform duration-300 ${
-                      isActive(link.href) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                      isActive(link.id) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                     }`}
                   />
                 </a>
@@ -93,7 +99,7 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <a href="#reserve" className="btn btn-primary hidden !px-5 !py-3 sm:inline-flex">
+          <a href={reserveHref} className="btn btn-primary hidden !px-5 !py-3 sm:inline-flex">
             Reserve a Table
           </a>
           <button
@@ -123,14 +129,14 @@ export default function Navbar() {
             hidden={!open}
           >
             <ul>
-              {NAV_LINKS.map((link) => (
-                <li key={link.href} className="border-b border-espresso/10">
+              {links.map((link) => (
+                <li key={link.id} className="border-b border-espresso/10">
                   <a
                     href={link.href}
                     onClick={() => setOpen(false)}
-                    aria-current={isActive(link.href) ? 'true' : undefined}
+                    aria-current={isActive(link.id) ? 'true' : undefined}
                     className={`flex items-center justify-between py-4 font-display text-2xl ${
-                      isActive(link.href) ? 'text-terracotta-deep' : 'text-espresso'
+                      isActive(link.id) ? 'text-terracotta-deep' : 'text-espresso'
                     }`}
                   >
                     {link.label}
@@ -138,7 +144,7 @@ export default function Navbar() {
                 </li>
               ))}
             </ul>
-            <a href="#reserve" onClick={() => setOpen(false)} className="btn btn-primary mt-7 w-full">
+            <a href={reserveHref} onClick={() => setOpen(false)} className="btn btn-primary mt-7 w-full">
               Reserve a Table
             </a>
           </nav>

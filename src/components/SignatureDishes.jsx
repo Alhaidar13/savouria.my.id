@@ -73,7 +73,7 @@ export default function SignatureDishes() {
         </ul>
 
         <Reveal className="mt-14 flex justify-center">
-          <a href="#promo" className="btn btn-outline">
+          <a href="/menu" className="btn btn-outline">
             View Full Menu
             <ArrowRight size={16} strokeWidth={1.75} aria-hidden="true" />
           </a>

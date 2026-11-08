@@ -1,11 +1,3 @@
-export const NAV_LINKS = [
-  { label: 'Home', href: '#home' },
-  { label: 'Our Story', href: '#story' },
-  { label: 'Menu', href: '#menu' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Contact', href: '#contact' },
-]
-
 export const DISHES = [
   {
     id: 'ribeye',

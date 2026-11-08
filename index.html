@@ -16,7 +16,17 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Poppins:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="preload" as="image" href="/images/hero.webp" type="image/webp" />
+    <script>
+      // Preload the homepage hero only on the homepage
+      if (location.pathname === '/' || location.pathname === '/index.html') {
+        var l = document.createElement('link')
+        l.rel = 'preload'
+        l.as = 'image'
+        l.href = '/images/hero.webp'
+        l.type = 'image/webp'
+        document.head.appendChild(l)
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
