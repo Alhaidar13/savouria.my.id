@@ -1,0 +1,283 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------
+   Savouria design tokens
+   Brand colors (65% cream / 25% espresso / 10% terracotta) + 2 tonal
+   shades of terracotta used ONLY to keep text contrast >= 4.5:1.
+------------------------------------------------------------------- */
+@theme {
+  --color-espresso: #2c221e;
+  --color-cream: #f7f3ee;
+  --color-terracotta: #c86d51;
+  /* darker shade of terracotta: text/buttons on cream (4.9:1) */
+  --color-terracotta-deep: #a8503a;
+  /* lighter tint of terracotta: text accents on espresso (6.3:1) */
+  --color-terracotta-soft: #e0917a;
+
+  --font-display: 'Playfair Display', 'Times New Roman', serif;
+  --font-ui: 'Poppins', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  --ease-savour: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-espresso);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+  }
+  ::selection {
+    background: var(--color-terracotta);
+    color: var(--color-cream);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-terracotta-deep);
+    outline-offset: 3px;
+  }
+  .on-dark :focus-visible {
+    outline-color: var(--color-terracotta-soft);
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+@layer components {
+  /* Eyebrow / small label */
+  .eyebrow {
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-terracotta-deep);
+  }
+  .on-dark .eyebrow {
+    color: var(--color-terracotta-soft);
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    font-family: var(--font-ui);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 1rem 1.75rem;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    cursor: pointer;
+    transition:
+      background-color 0.3s var(--ease-savour),
+      color 0.3s var(--ease-savour),
+      border-color 0.3s var(--ease-savour),
+      transform 0.3s var(--ease-savour);
+  }
+  .btn:active {
+    transform: translateY(1px);
+  }
+  .btn-primary {
+    background: var(--color-terracotta-deep);
+    color: var(--color-cream);
+  }
+  .btn-primary:hover {
+    background: var(--color-espresso);
+  }
+  .on-dark .btn-primary:hover {
+    background: var(--color-cream);
+    color: var(--color-espresso);
+  }
+  .btn-outline {
+    border-color: var(--color-espresso);
+    color: var(--color-espresso);
+  }
+  .btn-outline:hover {
+    background: var(--color-espresso);
+    color: var(--color-cream);
+  }
+  .on-dark .btn-outline {
+    border-color: rgb(247 243 238 / 0.6);
+    color: var(--color-cream);
+  }
+  .on-dark .btn-outline:hover {
+    background: var(--color-cream);
+    border-color: var(--color-cream);
+    color: var(--color-espresso);
+  }
+
+  /* Underlined text link */
+  .link-underline {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-ui);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-espresso);
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--color-terracotta);
+    transition: color 0.3s var(--ease-savour);
+  }
+  .link-underline:hover {
+    color: var(--color-terracotta-deep);
+  }
+  .link-underline svg {
+    transition: transform 0.3s var(--ease-savour);
+  }
+  .link-underline:hover svg {
+    transform: translateX(4px);
+  }
+
+  /* Form fields */
+  .field-label {
+    display: block;
+    font-family: var(--font-ui);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    color: rgb(247 243 238 / 0.85);
+  }
+  .field {
+    width: 100%;
+    background: rgb(247 243 238 / 0.06);
+    border: 1px solid rgb(247 243 238 / 0.28);
+    border-radius: 2px;
+    color: var(--color-cream);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    padding: 0.85rem 1rem;
+    transition:
+      border-color 0.25s var(--ease-savour),
+      background-color 0.25s var(--ease-savour);
+  }
+  .field::placeholder {
+    color: rgb(247 243 238 / 0.5);
+  }
+  .field:hover {
+    border-color: rgb(247 243 238 / 0.55);
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-terracotta-soft);
+    background: rgb(247 243 238 / 0.1);
+  }
+  .field[aria-invalid='true'] {
+    border-color: var(--color-terracotta-soft);
+  }
+  select.field {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%23F7F3EE' stroke-width='1.5'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+  }
+  select.field option {
+    background: var(--color-espresso);
+    color: var(--color-cream);
+  }
+  input[type='date'].field {
+    color-scheme: dark;
+  }
+  .field-error {
+    margin-top: 0.4rem;
+    font-size: 0.8125rem;
+    color: var(--color-terracotta-soft);
+  }
+}
+
+@layer utilities {
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(26px);
+    transition:
+      opacity 0.9s var(--ease-savour),
+      transform 0.9s var(--ease-savour);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Hero entrance */
+  .hero-in {
+    opacity: 0;
+    animation: hero-in 1s var(--ease-savour) forwards;
+    animation-delay: var(--hero-delay, 0ms);
+  }
+  .hero-img-in {
+    opacity: 0;
+    animation: hero-img-in 1.4s var(--ease-savour) 0.15s forwards;
+  }
+  @keyframes hero-in {
+    from {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes hero-img-in {
+    from {
+      opacity: 0;
+      transform: scale(1.04);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .vertical-text {
+    writing-mode: vertical-rl;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal,
+  .hero-in,
+  .hero-img-in {
+    opacity: 1;
+    transform: none;
+    animation: none;
+    transition: none;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}
